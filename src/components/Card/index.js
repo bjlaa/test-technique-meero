@@ -1,9 +1,15 @@
 import React from 'react';
 import './styles.scss'
 
-const Card = ({ cat }) => {
+const Card = ({ cat, toggleModal, history }) => {
+  const handleClick = () => {
+    toggleModal(cat, history);
+  }
   return (
-    <div className='card'>
+    <div
+      onClick={handleClick}
+      className='card'
+    >
       <div className='card__name'>
         {cat.name}
       </div>
