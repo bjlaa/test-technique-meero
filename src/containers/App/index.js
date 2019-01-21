@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
-import './styles.scss';
+import { connect } from 'react-redux';
 
+import './styles.scss';
+import { fetchCats } from '../../actions/actions'
 import Card from '../../components/Card';
 
 class App extends Component {
+  componentWillMount() {
+    this.props.fetchCats();
+  }
+
   renderCards() {
     if (!this.props.cats || this.props.cats.length <= 0) {
       return null
     }
 
-    const cardNodes = this.props.cats.map((cat) => {
-      return <Card cat={cat} />
+    const cardNodes = this.props.cats.map((cat, index) => {
+      return <Card key={`${cat.toString()}+${index}`} cat={cat} />
     });
 
     return cardNodes;
   }
 
   render() {
+    console.log(this.props.cats, 'ctas')
     return (
       <div className="app">
         <header className='app__header'>
@@ -28,4 +35,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = (state) => {
+  return {
+    cats: state.mainReducer.cats
+  }
+}
+
+export default connect(mapDispatchToProps, { fetchCats })(App);
