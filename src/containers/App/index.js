@@ -47,7 +47,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.originsToShow)
+    console.log(this.props.cats)
     return (
       <div className="app">
         <header className='app__header'>

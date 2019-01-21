@@ -14,25 +14,58 @@ export const fetchCats = () => {
       return response.json();
     })
     .then((responseParsed) => {
-      // And pass it to our redux store
-      dispatch({
-        type: actions.SAVE_CATS,
-        value: responseParsed
-      });
-
-      const origins = [];
-
+      const promises = [];
+      const cats2 = [];
       responseParsed.forEach((element) => {
-        if (origins.indexOf(element.origin) <= -1) {
-          origins.push(element.origin);
-        }
+        if (element.wikipedia_url === null) return 
+
+        const urlDecoded = element.wikipedia_url.split('/');
+
+        const promise = fetch(`https://en.wikipedia.org/api/rest_v1/page/media/${urlDecoded[urlDecoded.length - 1]}`)
+        .then(r => r.json())
+        .then((responseImgParsed) => {
+          if (responseImgParsed.items[0]) {
+            const image = responseImgParsed.items[0].original.source
+
+            element.image = image;          
+          }
+
+
+          fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${urlDecoded[urlDecoded.length - 1]}`)
+          .then(rr => rr.json())
+          .then((responseDescParsed) => {
+            const desc = responseDescParsed.extract;
+
+            element.description = desc;
+
+            cats2.push(element);
+          })
+        })
+
+        promises.push(promise);
       });
 
-      dispatch({
-        type: actions.SAVE_ORIGINS,
-        value: origins
-      })
+      return Promise.all(promises)
+      .then(() => {
+        // And pass it to our redux store
+        dispatch({
+          type: actions.SAVE_CATS,
+          value: cats2
+        });
 
+        const origins = [];
+
+        responseParsed.forEach((element) => {
+          if (origins.indexOf(element.origin) <= -1) {
+            origins.push(element.origin);
+          }
+        });
+
+        dispatch({
+          type: actions.SAVE_ORIGINS,
+          value: origins
+        })
+      })
     });
   }
 }

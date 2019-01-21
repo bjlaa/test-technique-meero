@@ -17,7 +17,7 @@ const Card = ({ cat, toggleModal, history }) => {
         {cat.origin}
       </div>
       <div className='card__imageContainer'>
-        <img src={cat.img} alt={`A ${cat.name}`} className='card__imageContainer__img' />
+        <img src={cat.image} alt={`A ${cat.name}`} className='card__imageContainer__img' />
       </div>
     </div>    
   );
