@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Route, Link } from "react-router-dom";
 
 import './styles.scss';
 import { fetchCats } from '../../actions/actions'
@@ -30,6 +31,9 @@ class App extends Component {
           Test Technique Meero
         </header>
         {this.renderCards()}
+        <Route
+          path='/modal'
+        />
       </div>
     );
   }

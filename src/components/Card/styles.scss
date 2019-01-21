@@ -1,0 +1,20 @@
+.card {
+  background: #FAFAFA;
+  border-radius: 3px;
+  color: #444;
+  width: 500px;
+  max-width: calc(100% - 20px);
+  margin: 5px auto;
+  font-size: 12pt;
+  padding: 10px;
+  &__name,
+  &__origin,
+  &__imageContainer {
+    padding: 5px 0;
+  }
+  &__imageContainer {
+    &__img {
+      max-width: 100%;
+    }
+  }
+}
