@@ -24,6 +24,7 @@ export const fetchCats = () => {
 }
 
 export const toggleModal = (cat, history) => {
+  console.log(cat)
   if (cat) {
     history.push('/modal');
     // We firstly save the cat object selected

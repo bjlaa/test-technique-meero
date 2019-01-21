@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Redirect } from "react-router-dom";
 
 import './styles.scss';
 import { fetchCats, toggleModal } from '../../actions/actions'
@@ -41,6 +41,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.cats)
     return (
       <div className="app">
         <header className='app__header'>
@@ -50,10 +51,15 @@ class App extends Component {
         <Route
           path='/modal'
           render={() => {
+            // Redirect to '/' if no cat is selected
+            if (!this.props.selectedCat) {
+              return <Redirect to='/' />
+            }
+            // Otherwise show the modal
             return (
               <Modal
                 onCloseCallback={() => { this.handleToggleModal(false) }}
-                content={<Card cat={this.props.selectedCat} />}
+                cat={this.props.selectedCat}
               />
             )
           }}
