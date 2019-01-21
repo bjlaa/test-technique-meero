@@ -19,6 +19,20 @@ export const fetchCats = () => {
         type: actions.SAVE_CATS,
         value: responseParsed
       });
+
+      const origins = [];
+
+      responseParsed.forEach((element) => {
+        if (origins.indexOf(element.origin) <= -1) {
+          origins.push(element.origin);
+        }
+      });
+
+      dispatch({
+        type: actions.SAVE_ORIGINS,
+        value: origins
+      })
+
     });
   }
 }
@@ -40,4 +54,27 @@ export const toggleModal = (cat, history) => {
       value: false
     } 
   }
+}
+
+export const filterCats = (origin) => {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    const originsToShow = Array.from(state.mainReducer.originsToShow);
+
+    const index = originsToShow.indexOf(origin);
+
+    if (index <= -1) {
+      originsToShow.push(origin);
+      
+    } else {
+      originsToShow.splice(index, 1);
+    }
+
+    dispatch({
+      type: actions.SAVE_ORIGINS_TO_SHOW,
+      value: originsToShow
+    })
+  }
+
 }
